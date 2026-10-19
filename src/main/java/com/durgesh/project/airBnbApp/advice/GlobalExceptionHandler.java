@@ -1,5 +1,6 @@
 package com.durgesh.project.airBnbApp.advice;
 
+import com.durgesh.project.airBnbApp.exception.AlreadyExistsException;
 import com.durgesh.project.airBnbApp.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,15 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse<?>> handleResourceNotFound(ResourceNotFoundException exception) {
         ApiError apiError = ApiError.builder()
                 .status(HttpStatus.NOT_FOUND)
+                .message(exception.getMessage())
+                .build();
+        return buildErrorResponseEntity(apiError);
+    }
+
+    @ExceptionHandler(AlreadyExistsException.class)
+    public ResponseEntity<ApiResponse<?>> handleAlreadyExists(AlreadyExistsException exception) {
+        ApiError apiError = ApiError.builder()
+                .status(HttpStatus.CONFLICT)
                 .message(exception.getMessage())
                 .build();
         return buildErrorResponseEntity(apiError);

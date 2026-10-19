@@ -47,4 +47,7 @@ public class Room {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    @Column(insertable = true, updatable = true, nullable = false)
+    private Boolean active;
+
 }
