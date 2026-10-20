@@ -6,8 +6,10 @@ import com.durgesh.project.airBnbApp.entity.Room;
 import com.durgesh.project.airBnbApp.exception.AlreadyExistsException;
 import com.durgesh.project.airBnbApp.exception.ResourceNotFoundException;
 import com.durgesh.project.airBnbApp.repository.HotelRepository;
+import com.durgesh.project.airBnbApp.repository.RoomRepository;
 import com.durgesh.project.airBnbApp.service.HotelService;
 import com.durgesh.project.airBnbApp.service.InventoryService;
+import com.durgesh.project.airBnbApp.service.RoomService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +25,7 @@ public class HotelServiceImpl implements HotelService {
     private final HotelRepository hotelRepository;
     private final ModelMapper modelMapper;
     private final InventoryService inventoryService;
+    private final RoomService roomService;
 
     @Override
     public HotelDto createNewHotel(HotelDto hotelDto) {
@@ -64,12 +67,12 @@ public class HotelServiceImpl implements HotelService {
             Hotel hotel = hotelRepository
                     .findById(id)
                     .orElseThrow(() -> new ResourceNotFoundException("Hotel Not Found with ID : " + id));
+            for(Room room: hotel.getRooms()) {
+                log.info("HotelServiceImpl deleting room with ID : {}",room.getRoomId());
+                roomService.deleteRoomById(room.getRoomId());
+            }
             hotelRepository.deleteById(id);
             log.info("HotelServiceImpl hotel is deleted with ID : {}",id);
-            for(Room room: hotel.getRooms()) {
-                inventoryService.deleteFutureInventoryForRoom(room);
-            }
-
         }else{
             throw new ResourceNotFoundException("Id is not associated with Hotel : "+id);
         }
