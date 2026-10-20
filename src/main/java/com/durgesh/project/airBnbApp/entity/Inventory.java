@@ -49,6 +49,9 @@ public class Inventory {
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal price; // basePrice * surgeFactor
 
+    @Column(nullable = false, columnDefinition = "INTEGER DEFAULT 0")
+    private Integer reservedCount;
+
     @Column(nullable = false)
     private String city;
 

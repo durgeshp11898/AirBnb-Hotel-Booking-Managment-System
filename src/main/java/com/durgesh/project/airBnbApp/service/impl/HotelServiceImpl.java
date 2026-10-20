@@ -1,6 +1,8 @@
 package com.durgesh.project.airBnbApp.service.impl;
 
 import com.durgesh.project.airBnbApp.dto.HotelDto;
+import com.durgesh.project.airBnbApp.dto.HotelInfoDto;
+import com.durgesh.project.airBnbApp.dto.RoomDto;
 import com.durgesh.project.airBnbApp.entity.Hotel;
 import com.durgesh.project.airBnbApp.entity.Room;
 import com.durgesh.project.airBnbApp.exception.AlreadyExistsException;
@@ -15,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
@@ -97,5 +101,19 @@ public class HotelServiceImpl implements HotelService {
         });
         log.info("HotelServiceImpl hotel is activated with ID : {}",hotelId);
 
+    }
+
+    @Override
+    public HotelInfoDto getHotelInfoById(Long hotelId) {
+        log.info("HotelServiceImpl getHotelInfoById : {}",hotelId);
+
+        Hotel hotel = hotelRepository
+                .findById(hotelId)
+                .orElseThrow(() -> new ResourceNotFoundException("Hotel not found with ID: "+hotelId));
+        List<RoomDto> rooms = hotel.getRooms()
+                .stream()
+                .map((element) -> modelMapper.map(element, RoomDto.class))
+                .toList();
+        return new HotelInfoDto(modelMapper.map(hotel, HotelDto.class), rooms);
     }
 }
