@@ -82,8 +82,7 @@ public class RoomServiceImpl implements RoomService {
                     .findById(roomId)
                     .orElseThrow(() -> new ResourceNotFoundException("Room not found with Id : " + roomId));
             inventoryService.deleteFutureInventoryForRoom(room);
-          //  roomRepository.deleteById(roomId); DUE TO FOREIGN KEY CONSTRAINT, WE ARE NOT DELETING THE ROOM, INSTEAD WE ARE MAKING IT INACTIVE
-            setRoomActive(roomId,false);
+          roomRepository.deleteById(roomId); //DUE TO FOREIGN KEY CONSTRAINT, WE ARE NOT DELETING THE ROOM, INSTEAD WE ARE MAKING IT INACTIVE
         }else{
             throw new ResourceNotFoundException("Room not found with Id : " + roomId);
         }
