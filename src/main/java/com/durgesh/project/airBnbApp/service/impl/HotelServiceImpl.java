@@ -114,7 +114,7 @@ public class HotelServiceImpl implements HotelService {
                 .stream()
                 .map((element) -> modelMapper.map(element, RoomDto.class))
                 .toList();
-        log.info("HotelServiceImpl getHotelInfoById : Found {} rooms for hotel ID: {}", rooms.size(), hotelId);nfo();
+        log.info("HotelServiceImpl getHotelInfoById : Found {} rooms for hotel ID: {}", rooms.size(), hotelId);
         return new HotelInfoDto(modelMapper.map(hotel, HotelDto.class), rooms);
     }
 }
