@@ -113,6 +113,7 @@ public class HotelServiceImpl implements HotelService {
         List<RoomDto> rooms = hotel.getRooms()
                 .stream()
                 .map((element) -> modelMapper.map(element, RoomDto.class))
+                .limit(10) // Limit to 10 rooms
                 .toList();
         log.info("HotelServiceImpl getHotelInfoById : Found {} rooms for hotel ID: {}", rooms.size(), hotelId);
         return new HotelInfoDto(modelMapper.map(hotel, HotelDto.class), rooms);
