@@ -1,9 +1,13 @@
 package com.durgesh.project.airBnbApp.securtiy;
 
 
+import com.durgesh.project.airBnbApp.dto.LoginDto;
+import com.durgesh.project.airBnbApp.dto.SignUpRequestDto;
+import com.durgesh.project.airBnbApp.dto.UserDto;
 import com.durgesh.project.airBnbApp.entity.User;
 import com.durgesh.project.airBnbApp.entity.enums.Role;
 import com.durgesh.project.airBnbApp.exception.ResourceNotFoundException;
+import com.durgesh.project.airBnbApp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
